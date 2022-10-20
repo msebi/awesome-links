@@ -8,11 +8,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         return res.status(403).json({ message: 'Method not allowed' });
     }
 
-    if (secret !== process.env.AUTH0_HOOK_SECRET) {
+    if (secret !== process.env.REACT_APP_AUTH0_HOOK_SECRET) {
         return res.status(403).json({
             email,
             secret,
-            envSecret: `${process.env.AUTH0_HOOK_SECRET}`,
+            envSecret: `${process.env.REACT_APP_AUTH0_HOOK_SECRET}`,
             message: `You must provide the secret 🤫`
         });
     }
