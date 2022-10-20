@@ -32,6 +32,10 @@ type LinkEdge {
   node: Link
 }
 
+type Mutation {
+  createLink(category: String!, description: String!, imageUrl: String!, title: String!, url: String!): Link!
+}
+
 """
 PageInfo cursor, as defined in https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo
 """

@@ -4,7 +4,7 @@ import { useUser } from "@auth0/nextjs-auth0";
 
 const Header = () => {
   const { user } = useUser();
-  console.log("user: " + JSON.stringify(user));
+  // console.log("user: " + JSON.stringify(user));
   return (
     <header className="text-gray-600 body-font">
       <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
@@ -27,6 +27,13 @@ const Header = () => {
           </a>
         </Link>
         <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
+          {user && (
+            <div className="flex itemx-center justify-center mr-5 capitalize bg-blue-500 py-1 px-3 rounded-md text-white">
+              <Link href="/admin">
+                <a>+ Create</a>
+              </Link>
+            </div>
+          )}
           {user ? (
             <div className="flex items-center space-x-5">
               <Link href="/api/auth/logout">
