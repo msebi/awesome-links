@@ -59,6 +59,16 @@ export const CreateLinkMutation = extendType({
                     throw new Error(`You need to be logged in to perform an action`)
                 }
 
+                const user = await context.prisma.user.findUnique({
+                    where: {
+                        email: context.user.email,
+                    }
+                })
+
+                if (user.role !== 'ADMIN') {
+                    throw new Error('You don\'t have permission to perform action')
+                }
+
                 const newLink = {
                     title: args.title,
                     url: args.url,

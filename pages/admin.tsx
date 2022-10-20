@@ -5,6 +5,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { getSession } from "@auth0/nextjs-auth0";
 import prisma from "../lib/prisma";
 import { createECDH } from "crypto";
+import { resourceUsage } from "process";
 
 const CreateLinkMutation = gql`
   mutation (
@@ -147,6 +148,25 @@ export const getServerSideProps = async ({ req, res }) => {
     };
   }
 
+  const user = await prisma.user.findUnique({
+    select: {
+      email: true,
+      role: true,
+    },
+    where: {
+      email: session.user.email,
+    },
+  });
+
+  if (user.role !== "ADMIN") {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/404",
+      },
+      props: {},
+    };
+  }
   return {
     props: {},
   };
