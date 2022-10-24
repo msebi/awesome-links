@@ -1,6 +1,6 @@
-import React from 'react';
-import { AwesomeLink } from '../components/AwesomeLink';
-import { gql, useQuery } from '@apollo/client';
+import React from "react";
+import { AwesomeLink } from "../components/AwesomeLink";
+import { gql, useQuery } from "@apollo/client";
 
 const FavoritesQuery = gql`
   query {
@@ -17,7 +17,7 @@ const FavoritesQuery = gql`
 
 const Favorites = () => {
   const { data, loading, error } = useQuery(FavoritesQuery);
-  if (error) return <p>Oops! SOmething went wrong {error}</p>;
+  if (error) return <p>Oops! Something went wrong {error}</p>;
   return (
     <div className="mx-auto my-20 max-w-5xl px-10">
       <h1 className="text-3xl font-medium my-5">My Favorites</h1>

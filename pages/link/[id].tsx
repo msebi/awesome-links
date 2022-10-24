@@ -1,8 +1,8 @@
-import React from 'react';
-import { prisma } from '../../lib/prisma';
-import { useState } from 'react';
-import { gql, useMutation } from '@apollo/client';
-import toast, { Toaster } from 'react-hot-toast';
+import React from "react";
+import { prisma } from "../../lib/prisma";
+import { useState } from "react";
+import { gql, useMutation } from "@apollo/client";
+import toast, { Toaster } from "react-hot-toast";
 
 const BookmarkLinkMutation = gql`
   mutation ($id: String!) {
@@ -23,9 +23,9 @@ const Link = ({ link }) => {
   const bookmark = async () => {
     setIsLoading(true);
     toast.promise(createBookmark({ variables: { id: link.id } }), {
-      loading: 'working on it',
-      success: 'Saved successfully! 🎉',
-      error: `Something went wrong 😥 Please try again`,
+      loading: "working on it",
+      success: "Saved successfully! 🎉",
+      error: `Bookmark Something went wrong 😥 Please try again`,
     });
     setIsLoading(false);
   };

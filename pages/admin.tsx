@@ -1,9 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { gql, useMutation } from "@apollo/client";
 import toast, { Toaster } from "react-hot-toast";
-import { getSession } from "@auth0/nextjs-auth0";
-import { prisma } from "../lib/prisma";
 
 const CreateLinkMutation = gql`
   mutation (
@@ -30,7 +28,7 @@ const CreateLinkMutation = gql`
 `;
 
 const Admin = () => {
-  console.log("Admin component");
+  console.log("admin component");
   const [createLink, { data, loading, error }] =
     useMutation(CreateLinkMutation);
   const {
@@ -39,15 +37,15 @@ const Admin = () => {
     formState: { errors },
   } = useForm();
 
-  // Upload photo
+  // Upload photo function
   const uploadPhoto = async (e) => {
     const file = e.target.files[0];
-    const fileName = encodeURIComponent(file.name);
-    const res = await fetch(`/api/upload-image?file=${fileName}`);
+    const filename = encodeURIComponent(file.name);
+    const res = await fetch(`/api/upload-image?file=${filename}`);
     const data = await res.json();
     const formData = new FormData();
 
-    // ts ignore
+    // @ts-ignore
     Object.entries({ ...data.fields, file }).forEach(([key, value]) => {
       formData.append(key, value);
     });
@@ -60,20 +58,22 @@ const Admin = () => {
       {
         loading: "Uploading...",
         success: "Image successfully uploaded!🎉",
-        error: `Upload failed 😥 Please try again ${error}`,
+        error: `Admin upload Upload failed 😥 Please try again ${error}`,
       }
     );
   };
 
   const onSubmit = async (data) => {
     const { title, url, category, description, image } = data;
-    const imageUrl = `https://my-awesome-links-bucket.s3.amazonaws.com/${image[0].name}`;
+    const imageUrl = `https://${process.env.REACT_APP_NEXT_PUBLIC_AWS_S3_BUCKET_NAME}.s3.amazonaws.com/${image[0].name}`;
+    console.log("image url: " + imageUrl);
+    console.log("data: " + data);
     const variables = { title, url, category, description, imageUrl };
     try {
       toast.promise(createLink({ variables }), {
         loading: "Creating new link..",
         success: "Link successfully created!🎉",
-        error: `Something went wrong 😥 Please try again -  ${error}`,
+        error: `Admin submit link Something went wrong 😥 Please try again -  ${error}`,
       });
     } catch (error) {
       console.error(error);
@@ -128,6 +128,18 @@ const Admin = () => {
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
           />
         </label>
+        <label className="block">
+          <span className="text-gray-700">
+            Upload a .png or .jpg image (max 1MB).
+          </span>
+          <input
+            {...register("image", { required: true })}
+            onChange={uploadPhoto}
+            type="file"
+            accept="image/png, image/jpeg"
+            name="image"
+          />
+        </label>
 
         <button
           disabled={loading}
@@ -156,41 +168,3 @@ const Admin = () => {
 };
 
 export default Admin;
-
-export const getServerSideProps = async ({ req, res }) => {
-  const session = getSession(req, res);
-
-  if (!session) {
-    return {
-      redirect: {
-        permanent: false,
-        destination: "/api/auth/login",
-      },
-      props: {},
-    };
-  }
-
-  const user = await prisma.user.findUnique({
-    select: {
-      email: true,
-      role: true,
-    },
-    where: {
-      email: session.user.email,
-    },
-  });
-
-  if (user.role !== "ADMIN") {
-    return {
-      redirect: {
-        permanent: false,
-        destination: "/404",
-      },
-      props: {},
-    };
-  }
-
-  return {
-    props: {},
-  };
-};
