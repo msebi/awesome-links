@@ -6,8 +6,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== 'POST') {
     return res.status(403).json({ message: 'Method not allowed' });
   }
-  if (secret !== process.env.AUTH0_HOOK_SECRET) {
-    return res.status(403).json({ message: `You must provide the secret 🤫` });
+  if (secret !== process.env.REACT_APP_AUTH0_HOOK_SECRET) {
+    return res.status(403).json({
+      email,
+      secret,
+      envSecret: `${process.env.REACT_APP_AUTH0_HOOK_SECRET}`,
+      message: `You must provide the secret 🤫`
+    });
   }
   if (email) {
     await prisma.user.create({

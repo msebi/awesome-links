@@ -30,6 +30,7 @@ const CreateLinkMutation = gql`
 `;
 
 const Admin = () => {
+  console.log("Admin component");
   const [createLink, { data, loading, error }] =
     useMutation(CreateLinkMutation);
   const {
