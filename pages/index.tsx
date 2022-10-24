@@ -1,8 +1,8 @@
-import Head from 'next/head';
-import { gql, useQuery, useMutation } from '@apollo/client';
-import { useUser } from '@auth0/nextjs-auth0';
-import Link from 'next/link';
-import { AwesomeLink } from '../components/AwesomeLink';
+import Head from "next/head";
+import { gql, useQuery, useMutation } from "@apollo/client";
+import { useUser } from "@auth0/nextjs-auth0";
+import Link from "next/link";
+import { AwesomeLink } from "../components/AwesomeLink";
 
 const AllLinksQuery = gql`
   query allLinksQuery($first: Int, $after: String) {
@@ -30,6 +30,8 @@ const AllLinksQuery = gql`
 function Home() {
   const { user } = useUser();
 
+  console.log("user: " + JSON.stringify(user));
+
   const { data, loading, error, fetchMore } = useQuery(AllLinksQuery, {
     variables: { first: 3 },
   });
@@ -37,7 +39,7 @@ function Home() {
   if (!user) {
     return (
       <div className="flex items-center justify-center">
-        To view the awesome links you need to{' '}
+        To view the awesome links you need to{" "}
         <Link href="/api/auth/login">
           <a className=" block bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">
             Login
