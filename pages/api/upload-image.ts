@@ -19,7 +19,7 @@ const handler = async (req, res) => {
 
         // 3.
         const post = await s3.createPresignedPost({
-            Bucket: process.env.AWS_S3_BUCKET_NAME,
+            Bucket: process.env.REACT_APP_NEXT_PUBLIC_AWS_S3_BUCKET_NAME,
             Fields: {
                 key: req.query.file,
             },
