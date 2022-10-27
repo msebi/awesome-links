@@ -28,7 +28,6 @@ const CreateLinkMutation = gql`
 `;
 
 const Admin = () => {
-  console.log("admin component");
   const [createLink, { data, loading, error }] =
     useMutation(CreateLinkMutation);
   const {
@@ -66,8 +65,6 @@ const Admin = () => {
   const onSubmit = async (data) => {
     const { title, url, category, description, image } = data;
     const imageUrl = `https://${process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME}.s3.amazonaws.com/${image[0].name}`;
-    console.log("image url: " + imageUrl);
-    console.log("data: " + JSON.stringify(data));
     const variables = { title, url, category, description, imageUrl };
     try {
       toast.promise(createLink({ variables }), {
