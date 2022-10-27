@@ -47,7 +47,7 @@ const Admin = () => {
 
     // @ts-ignore
     Object.entries({ ...data.fields, file }).forEach(([key, value]) => {
-      formData.append(key, value);
+      formData.append(key as string, value as string);
     });
 
     toast.promise(
