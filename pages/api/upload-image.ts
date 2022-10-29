@@ -2,6 +2,7 @@ import aws from 'aws-sdk'
 
 const handler = async (req, res) => {
     try {
+        // TODO: rem. This line was added to trigger deployment on vercel
         // 1.
         const s3 = new aws.S3({
             accessKeyId: process.env.PROJECT_AWS_ACCESS_KEY,
