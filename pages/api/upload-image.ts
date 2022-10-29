@@ -4,16 +4,16 @@ const handler = async (req, res) => {
     try {
         // 1.
         const s3 = new aws.S3({
-            accessKeyId: process.env.APP_AWS_ACCESS_KEY,
-            secretAccessKey: process.env.APP_AWS_SECRET_KEY,
-            region: process.env.APP_AWS_REGION,
+            accessKeyId: process.env.PROJECT_AWS_ACCESS_KEY,
+            secretAccessKey: process.env.PROJECT_AWS_SECRET_KEY,
+            region: process.env.PROJECT_AWS_REGION,
         })
 
         // 2.
         aws.config.update({
-            accessKeyId: process.env.APP_AWS_ACCESS_KEY,
-            secretAccessKey: process.env.APP_AWS_SECRET_KEY,
-            region: process.env.APP_AWS_REGION,
+            accessKeyId: process.env.PROJECT_AWS_ACCESS_KEY,
+            secretAccessKey: process.env.PROJECT_AWS_SECRET_KEY,
+            region: process.env.PROJECT_AWS_REGION,
             signatureVersion: 'v4',
         })
 
