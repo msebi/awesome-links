@@ -2,7 +2,7 @@ import aws from 'aws-sdk'
 
 const handler = async (req, res) => {
     try {
-        // TODO: rem. Trigger rebuild 1
+        // TODO: rem. Trigger rebuild 2
         // 1.
         const s3 = new aws.S3({
             accessKeyId: process.env.PROJECT_AWS_ACCESS_KEY,
