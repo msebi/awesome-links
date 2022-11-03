@@ -10,7 +10,7 @@ generator client {
 
 model Link {
   id          String   @id @default(uuid())
-  index       Int?      @default(autoincrement()) @unique
+  index       Int      @unique @default(autoincrement())
   title       String
   description String
   url         String
